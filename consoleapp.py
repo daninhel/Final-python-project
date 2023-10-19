@@ -9,28 +9,27 @@ video = {
 }
 
 def VideoDownload():
-                try :
-                    video['url'] = input('Insira a url do video : \nOu Ctrl + C para voltar.')
-                except KeyboardInterrupt:
-                    ...
+    try :
+        video['url'] = input('Aperte Ctrl + C para voltar.\nOu insira a url do video :')
+    except KeyboardInterrupt:
+        ...
             
-                if video['url']:
-                    try:
-                        youtube = YouTube(video['url'])
-                        video['title'] = youtube.title
-                        print(f'Título do vídeo: {video["title"]}')
-                        op = input('Deseja')
-                        if op == '':
-                            youtube.streams.get_highest_resolution().download()
-                        else:
-                            ...
-                    except Exception as e:
-                        print(f"Erro ao obter informações do vídeo: {str(e)}"),wait(3),cmd('cls')
+    if video['url']:
+        try:
+            youtube = YouTube(video['url'])
+            video['title'] = youtube.title
+            print(f'Título do vídeo: {video["title"]}')
                         
-                else:
-                    print("Por favor, insira uma URL válida."), wait(3), cmd('cls')
+            if op == '':
+                youtube.streams.get_highest_resolution().download()
+            else:
+                ...
+        except Exception as e:
+            print(f"Erro ao obter informações do vídeo: {str(e)}"),wait(3),cmd('cls')
+                        
+    else:
+        print("Por favor, insira uma URL válida."), wait(3), cmd('cls')
                     
-
 def opcao():
     a = None
     try :
