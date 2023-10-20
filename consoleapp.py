@@ -1,63 +1,75 @@
-from pytube import YouTube
+from pytube import YouTube , Playlist
 from os import system as cmd
 from time import sleep as wait
 
-video = {
-    'url': 'https://youtu.be/3Wo4L2dPS58',
-    'title': '',
-    'thumbnail': '',
-}
+yt = None
 
-def VideoDownload():
-    try :
-        video['url'] = input('Aperte Ctrl + C para voltar.\nOu insira a url do video :')
-    except KeyboardInterrupt:
-        ...
-            
-    if video['url']:
-        try:
-            youtube = YouTube(video['url'])
-            video['title'] = youtube.title
-            print(f'Título do vídeo: {video["title"]}')
-                        
-            if op == '':
-                youtube.streams.get_highest_resolution().download()
-            else:
-                ...
-        except Exception as e:
-            print(f"Erro ao obter informações do vídeo: {str(e)}"),wait(3),cmd('cls')
-                        
-    else:
-        print("Por favor, insira uma URL válida."), wait(3), cmd('cls')
-                    
-def opcao():
-    a = None
-    try :
-        a  = input('Insira o numero que correponde a opção que deseja : ')
+def VideoDownloader():
+    try:
+        yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a url do video : '))
+        print(yt.title), wait(3), cmd('cls')
     except:
-        ...
-        
-    return a
-
-def AudioDownload():
-    ...
+        print('Url inválida'), wait(3), cmd('cls')
     
+    if yt:
+        print(yt.title)
+        op = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+        if op == '1':
+            print('Baixando . . .')
+            yt = yt.streams.get_highest_resolution()
+            yt.download('./midias')
+            wait(2), cmd('cls')
+
+def AudioDownloader():
+    try:
+        yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a url do video : '))
+        print(yt.title), wait(3), cmd('cls')
+    except:
+        print('Url inválida'), wait(3), cmd('cls')
+    
+    if yt:
+        print(yt.title)
+        op = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+        if op == '1':
+            wait(3), cmd('cls')
+
+def PlaylistDownloader():
+    try:
+        yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a url do video : '))
+        print(yt.title), wait(3), cmd('cls')
+    except:
+        print('Url inválida'), wait(3), cmd('cls')
+    
+    if yt:
+        print(yt.title)
+        op = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+        if op == '1':
+            wait(3), cmd('cls')
+
+def menu():
+    print('1 - Baixar video\n2 - Baixar áudio\n3 - Baixar playlist\n4 - Encerrar')
+    opcao = input('Insira a opção que correponde a que você deseja : ')
+
+    return opcao
+
 def main():
-    print('1 - Baixar video\n2 - Baixar audio\n3 - Encerrar')
+    cmd('cls')
+    op = menu()
+    match op:
+        case '1':
+            VideoDownloader()
+            main()
+        case '2':
+            AudioDownloader()
+            main()
+        case '3':
+            PlaylistDownloader()
+            main()
+        case '4':
+            print('Encerrando . . .')
+        case _:
+            print('Opção inválida'),wait(3),cmd('cls')
+            main()
 
 if __name__ == '__main__':
     main()
-    op = opcao()
-    
-    match op:
-        case '1':
-            VideoDownload()
-            main()
-        case '2':
-            AudioDownload
-            main()
-        case '3':
-            print('Encerrando . . .')
-        case _:
-            print('Opção inválida.')
-            ...
