@@ -31,7 +31,10 @@ def AudioDownloader():
         print(yt.title)
         op = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
         if op == '1':
-            wait(3), cmd('cls')
+            print('Baixando . . .')
+            yt = yt.streams.get_audio_only()
+            yt.download('./midias')
+            wait(2), cmd('cls')
 
 def PlaylistDownloader():
     try:
@@ -44,7 +47,10 @@ def PlaylistDownloader():
         print(yt.title)
         op = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
         if op == '1':
-            wait(3), cmd('cls')
+            print('Baixando . . .')
+            yt = yt.streams.get_highest_resolution()
+            yt.download('./midias')
+            wait(2), cmd('cls')
 
 def menu():
     print('1 - Baixar video\n2 - Baixar áudio\n3 - Baixar playlist\n4 - Encerrar')
