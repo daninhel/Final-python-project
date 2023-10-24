@@ -2,67 +2,110 @@ from pytube import YouTube , Playlist
 from os import system as cmd
 from time import sleep as wait
 
-yt = None
-resolucao = []
+resolucoes = []
 #trabalhar na escolha de resolução
 
 def VideoDownloader():
+    '''
+    Baixa em arquvi de vídeo
+    '''
+    opcao = None
     try:
-        yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a url do video : '))
-        print(yt.title), wait(3), cmd('cls')
-    except:
-        cmd('cls'),print('Url inválida'), wait(3), cmd('cls')
-
-    
-    if yt:
-        cmd('cls'), print(yt.title)
-        opcao = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+        cmd('cls')
+        yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a URL do vídeo: '))
+        
+        print(yt.title)
+        wait(3), cmd('cls')
+        
+        resolucoes = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
+        print("Resoluções disponíveis para download:")
+        for i, res in enumerate(resolucoes, start=1):
+            print(f"{i} - {res.resolution}")
+        
+        while True:
+            try:
+                cmd('cls')
+                escolha = int(input('Escolha a resolução desejada pelo número correspondente: '))
+                if 1 <= escolha <= len(resolucoes):
+                    yt = resolucoes[escolha - 1]
+                    break
+                else:
+                    cmd('cls')
+                    print("Escolha inválida. Digite o número correspondente à resolução desejada.")
+                    wait(3), cmd('cls')
+            except ValueError:
+                cmd('cls'),print("Escolha inválida. Digite o número correspondente à resolução desejada."),wait(3),cmd('cls')
+                
+        print(yt.title)
+        try:
+            opcao = input('Se deseja baixar esse vídeo, digite 1; caso contrário, pressione qualquer outra tecla: ')
+        except KeyboardInterrupt:
+            ...
+        
         if opcao == '1':
-            print('Baixando . . .')
-
-            yt = yt.streams.get_highest_resolution()
-            yt.download('./midias')
-            wait(2), cmd('cls')
+            cmd('cls'), print('Baixando . . .')
+            yt.download('./Final-python-project/midias')
+            print('Baixado!'),wait(2), cmd('cls')
+        else:
+            print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')
+        
+    except:
+        cmd('cls'), print('URL inválida'),wait(3), cmd('cls')
 
 def AudioDownloader():
     '''
     Baixa em arquvio de áudio
     '''
+    opcao = None
     try:
+        cmd('cls')
         yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a url do video : '))
         print(yt.title), wait(3), cmd('cls')
+        
+        cmd('cls'), print(yt.title)
+        
+        try:
+            opcao = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+        except:
+            ...
+            
+        if opcao == '1':
+            cmd('cls'), print('Baixando . . .')
+            yt = yt.streams.get_audio_only()
+            yt.download('./Final-python-project/midias')
+            print('Baixado!'),wait(2), cmd('cls')
+
+        else:
+            print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')
     except:
         cmd('cls'),print('Url inválida'), wait(3), cmd('cls')
-    
-    if yt:
-        cmd('cls'), print(yt.title)
-        opcao = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
-        if opcao == '1':
-            print('Baixando . . .')
-            yt = yt.streams.get_audio_only()
-            yt.download('./midias')
-            wait(2), cmd('cls')
 
 def PlaylistDownloader():
     '''
     Baixa as playlists
     '''
     playlist = None
+    opcao = None
     try:
+        cmd('cls')
         playlist = Playlist(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a url da playlist : '))
-        print(yt.title), wait(3), cmd('cls')
+        
+        cmd('cls'), print(playlist.title)
+        try:
+            opcao = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+        except KeyboardInterrupt:
+            ...
+        
+        if opcao == '1':
+            cmd('cls'), print('Baixando . . .')
+            for video in playlist.videos:
+                video.streams.first().download(f'./Final-python-project/midias/{playlist.title}')
+                
+            print('Baixado!'),wait(2), cmd('cls')
+        else:
+            print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')
     except:
         cmd('cls'),print('Url inválida'), wait(3), cmd('cls')
-    
-    if p:
-        cmd('cls'), print(p.title)
-        opcao = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
-        if opcao == '1':
-            print('Baixando . . .')
-            for video in playlist.videos:
-                video.streams.first().download('./midias')
-                
-            wait(2), cmd('cls')
 
 def menu() -> None:
     '''

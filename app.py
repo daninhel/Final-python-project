@@ -1,6 +1,5 @@
 import webview
 from pytube import YouTube
-from os import path
 
 video = {
     'url': 'https://youtu.be/3Wo4L2dPS58',
@@ -17,7 +16,7 @@ def YtDownload():
                 youtube = YouTube(video['url'])
                 video['title'] = youtube.title
                 print(f'Título do vídeo: {video["title"]}')
-                youtube.streams.get_highest_resolution().download()
+                youtube.streams.get_highest_resolution().download('./midias')
             except Exception as e:
                 print(f"Erro ao obter informações do vídeo: {str(e)}")
     else:
