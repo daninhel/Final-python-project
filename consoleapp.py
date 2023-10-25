@@ -14,8 +14,7 @@ def VideoDownloader() ->None:
         cmd('cls')
         yt = YouTube(input('Aviso: para colar só basta clicar com o botão direito do mouse.\nInsira a URL do vídeo: '))
         
-        print(yt.title)
-        wait(3), cmd('cls')
+        print(yt.title), wait(3), cmd('cls')
         
         resolucoes = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
         
@@ -24,15 +23,13 @@ def VideoDownloader() ->None:
             for i, res in enumerate(resolucoes, start=1):
                 print(f"{i} - {res.resolution}")
             try:
-                escolha = int(input('Escolha a resolução desejada pelo número correspondente: '))
-                if 1 <= escolha <= len(resolucoes):
-                    yt = resolucoes[escolha - 1]
+                escolha = input('Escolha a resolução desejada pelo número correspondente: ')
+                if 1 <= int(escolha) <= len(resolucoes):
+                    yt = resolucoes[int(escolha) - 1]
                     break
                 else:
-                    cmd('cls')
-                    print("Escolha inválida. Digite o número correspondente à resolução desejada.")
-                    wait(3), cmd('cls')
-            except:
+                    cmd('cls'), print("Escolha inválida. Digite o número correspondente à resolução desejada."), wait(3), cmd('cls')
+            except KeyboardInterrupt:
                 cmd('cls'),print("Escolha inválida. Digite o número correspondente à resolução desejada."),wait(3),cmd('cls')
                 
         cmd('cls'),print(yt.title)
@@ -46,8 +43,7 @@ def VideoDownloader() ->None:
             yt.download('./midias')
             print('Baixado!'),wait(2), cmd('cls')
         else:
-            print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')
-        
+            print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')      
     except:
         cmd('cls'), print('Url inválida'),wait(3), cmd('cls')
 
