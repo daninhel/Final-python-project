@@ -69,7 +69,6 @@ def AudioDownloader() -> None:
             yt = yt.streams.get_audio_only()
             yt.download('./midias')
             print('Baixado!'),wait(2), cmd('cls')
-
         else:
             print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')
     except:
