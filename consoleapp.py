@@ -5,7 +5,7 @@ from time import sleep as wait
 resolucoes = []
 #trabalhar na escolha de resolução
 
-def VideoDownloader():
+def VideoDownloader() ->None:
     '''
     Baixa em arquvi de vídeo
     '''
@@ -18,13 +18,12 @@ def VideoDownloader():
         wait(3), cmd('cls')
         
         resolucoes = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
-        print("Resoluções disponíveis para download:")
-        for i, res in enumerate(resolucoes, start=1):
-            print(f"{i} - {res.resolution}")
         
         while True:
+            print("Resoluções disponíveis para download:")
+            for i, res in enumerate(resolucoes, start=1):
+                print(f"{i} - {res.resolution}")
             try:
-                cmd('cls')
                 escolha = int(input('Escolha a resolução desejada pelo número correspondente: '))
                 if 1 <= escolha <= len(resolucoes):
                     yt = resolucoes[escolha - 1]
@@ -33,10 +32,10 @@ def VideoDownloader():
                     cmd('cls')
                     print("Escolha inválida. Digite o número correspondente à resolução desejada.")
                     wait(3), cmd('cls')
-            except ValueError:
+            except:
                 cmd('cls'),print("Escolha inválida. Digite o número correspondente à resolução desejada."),wait(3),cmd('cls')
                 
-        print(yt.title)
+        cmd('cls'),print(yt.title)
         try:
             opcao = input('Se deseja baixar esse vídeo, digite 1; caso contrário, pressione qualquer outra tecla: ')
         except KeyboardInterrupt:
@@ -44,15 +43,15 @@ def VideoDownloader():
         
         if opcao == '1':
             cmd('cls'), print('Baixando . . .')
-            yt.download('./Final-python-project/midias')
+            yt.download('./midias')
             print('Baixado!'),wait(2), cmd('cls')
         else:
             print('Vídeo não baixado,voltando para o menu principal. . .'),wait(3),cmd('cls')
         
     except:
-        cmd('cls'), print('URL inválida'),wait(3), cmd('cls')
+        cmd('cls'), print('Url inválida'),wait(3), cmd('cls')
 
-def AudioDownloader():
+def AudioDownloader() -> None:
     '''
     Baixa em arquvio de áudio
     '''
@@ -65,14 +64,14 @@ def AudioDownloader():
         cmd('cls'), print(yt.title)
         
         try:
-            opcao = input('Se deseja baixar esse video digite 1, caso contrario qualquer outra tecla.')
+            opcao = input('Se deseja baixar o áudio desse vídeo digite 1, caso contrario qualquer outra tecla.')
         except:
             ...
             
         if opcao == '1':
             cmd('cls'), print('Baixando . . .')
             yt = yt.streams.get_audio_only()
-            yt.download('./Final-python-project/midias')
+            yt.download('./midias')
             print('Baixado!'),wait(2), cmd('cls')
 
         else:
@@ -80,7 +79,7 @@ def AudioDownloader():
     except:
         cmd('cls'),print('Url inválida'), wait(3), cmd('cls')
 
-def PlaylistDownloader():
+def PlaylistDownloader() -> None:
     '''
     Baixa as playlists
     '''
@@ -99,7 +98,7 @@ def PlaylistDownloader():
         if opcao == '1':
             cmd('cls'), print('Baixando . . .')
             for video in playlist.videos:
-                video.streams.first().download(f'./Final-python-project/midias/{playlist.title}')
+                video.streams.first().download(f'./midias/{playlist.title}')
                 
             print('Baixado!'),wait(2), cmd('cls')
         else:
@@ -107,13 +106,16 @@ def PlaylistDownloader():
     except:
         cmd('cls'),print('Url inválida'), wait(3), cmd('cls')
 
-def menu() -> None:
+def menu() -> str:
     '''
-    Exibe o menu de inicio
+    Exibe o menu de inicio e retorna a opção escolhida pelo usuário
     '''
-    print('PyTube Downloader\n1 - Baixar video\n2 - Baixar áudio\n3 - Baixar playlist\n4 - Encerrar')
-    opcao = input('Insira a opção que correponde a que você deseja : ')
-
+    opcao = None
+    print('PyTube Downloader\n1 - Baixar vídeo\n2 - Baixar áudio\n3 - Baixar playlist\n4 - Encerrar')
+    try:
+        opcao = input('Insira a opção que correponde a que você deseja : ')
+    except KeyboardInterrupt:
+        ...
     return opcao
 
 def main() -> None:
